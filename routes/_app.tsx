@@ -8,6 +8,7 @@ const nav = [
   { name: "Events", href: "https://meetup.com/devict", target: "_blank" },
   { name: "Jobs", href: "https://jobs.devict.org", target: "_blank" },
   { name: "Projects", href: "/projects" },
+  { name: "Mentorship", href: "/mentorship" },
   { name: "Support", href: "/support" },
 ];
 
