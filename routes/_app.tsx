@@ -4,12 +4,12 @@ import Footer from "../islands/Footer.tsx";
 
 const nav = [
   { name: "About", href: "/about" },
-  { name: "Conduct", href: "/conduct" },
   { name: "Events", href: "https://meetup.com/devict", target: "_blank" },
-  { name: "Jobs", href: "https://jobs.devict.org", target: "_blank" },
   { name: "Projects", href: "/projects" },
+  { name: "Jobs", href: "https://jobs.devict.org", target: "_blank" },
   { name: "Mentorship", href: "/mentorship" },
   { name: "Support", href: "/support" },
+  { name: "Conduct", href: "/conduct" },
 ];
 
 export default function App({ Component, route }: PageProps) {
@@ -38,7 +38,8 @@ export default function App({ Component, route }: PageProps) {
         <link rel="manifest" href="/manifest.json" />
         {/* <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#eb7e32" /> */}
         <link rel="shortcut icon" href="/favicon.ico" />
-        <style>{`
+        <style>
+          {`
           @font-face {
             font-family: "Source Code Pro";
             font-style: normal;
@@ -46,7 +47,8 @@ export default function App({ Component, route }: PageProps) {
             font-display: swap;
             src: url("/fonts/SourceCodePro-Regular.ttf") format("ttf");
           }
-        `}</style>
+        `}
+        </style>
 
         <title>Contribute &middot; devICT</title>
       </head>
