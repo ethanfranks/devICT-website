@@ -14,6 +14,8 @@ import * as $support from "./routes/support.tsx";
 import * as $Footer from "./islands/Footer.tsx";
 import * as $Header from "./islands/Header.tsx";
 import * as $IssuesList from "./islands/IssuesList.tsx";
+import * as $MentorshipEngagement from "./islands/MentorshipEngagement.tsx";
+import * as $MentorshipGuidelines from "./islands/MentorshipGuidelines.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -32,6 +34,8 @@ const manifest = {
     "./islands/Footer.tsx": $Footer,
     "./islands/Header.tsx": $Header,
     "./islands/IssuesList.tsx": $IssuesList,
+    "./islands/MentorshipEngagement.tsx": $MentorshipEngagement,
+    "./islands/MentorshipGuidelines.tsx": $MentorshipGuidelines,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
