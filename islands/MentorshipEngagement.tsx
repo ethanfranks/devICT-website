@@ -1,26 +1,20 @@
 import { useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
+import { Mentor } from "../lib/mentors.ts";
 
-/*
-Details include:
-- first name
-- last name
-- Slack user name
-- Slack id with tooltip displaying how to find it
-- Title (e.g. Software Developer, UI/UX Designer, etc.)
-- Description (Up to 400 characters)
-- tags (languages, platforms, skillsets, etc.)
-  - topics they are comfortable mentoring on
-    - searchable drop down list which accepts new inputs (adds new inputs only to the user's list of tags)
-      - takes one topic at a time and adds to a list
-  - how they are willing to engage (slack DMs, in person, weekly zooms, etc)
-    - channels: Slack DMs, in person, video calls (Zoom, Google Meet, Slack Huddle etc.)
-    - meeting frequency: weekly, biweekly, monthly, flexible, other (input field)
-  - and what sort of frequency / time commitment they’re open to
-    - expected meeting duration: 30 minutes or less (<= 30 minutes), up to an hour (<= 60 minutes), flexible
-- Guidelines acceptance toggle
-*/
 function MentorSignUp() {
+  const [formData, setFormData] = useState<Mentor>({
+    id: crypto.randomUUID(),
+    name: '',
+    slackUsername: '',
+    slackId: '',
+    title: '',
+    description: '',
+    tags: '',
+    guidelinesAccepted: false,
+    isApproved: false,
+  });
+
   return (
     <div>
       <form class="bg-white rounded-lg shadow-lg p-6 flex flex-col">
@@ -108,10 +102,22 @@ export default function MentorshipEngagement() {
           becomeMentor()
         </button>
       </div>
-      <div id="current-mentors-panel" role="tabpanel" tabIndex={0} aria-labelledby="current-mentors-tab" hidden={selectedTabIndex !== 0}>
+      <div
+        id="current-mentors-panel"
+        role="tabpanel"
+        tabIndex={0}
+        aria-labelledby="current-mentors-tab"
+        hidden={selectedTabIndex !== 0}
+      >
         <CurrentMentors />
       </div>
-      <div id="mentor-sign-up-panel" role="tabpanel" tabIndex={1} aria-labelledby="mentor-sign-up-tab" hidden={selectedTabIndex !== 1}>
+      <div
+        id="mentor-sign-up-panel"
+        role="tabpanel"
+        tabIndex={1}
+        aria-labelledby="mentor-sign-up-tab"
+        hidden={selectedTabIndex !== 1}
+      >
         <MentorSignUp />
       </div>
     </div>
