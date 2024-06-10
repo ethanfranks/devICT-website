@@ -2,15 +2,31 @@ import { useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 import { Mentor } from "../lib/mentors.ts";
 
+function MentorCard(mentor: Mentor) {
+  return (
+    <div>
+      <p>mentor card</p>
+    </div>
+  );
+}
+
+function CurrentMentors() {
+  return (
+    <div>
+      {/* {mentors.map(mentor => <MentorCard key={mentor.id} mentor={mentor} />)} */}
+    </div>
+  );
+}
+
 function MentorSignUp() {
   const [formData, setFormData] = useState<Mentor>({
     id: crypto.randomUUID(),
-    name: '',
-    slackUsername: '',
-    slackId: '',
-    title: '',
-    description: '',
-    tags: '',
+    name: "",
+    slackUsername: "",
+    slackId: "",
+    title: "",
+    description: "",
+    tags: "",
     guidelinesAccepted: false,
     isApproved: false,
   });
@@ -35,21 +51,6 @@ function MentorSignUp() {
           board of directors.
         </p>
       </footer>
-    </div>
-  );
-}
-
-function CurrentMentors() {
-  return (
-    <div>
-      <h2>
-        list of mentors here with: avatar (from slack), mentor info, and a
-        "reach out on slack" CTA which takes the user to devICT slack DM to the
-        mentor
-      </h2>
-      <div>
-        {/* {mentors.map(mentor => <MentorCard key={mentor.id} mentor={mentor} />)} */}
-      </div>
     </div>
   );
 }
