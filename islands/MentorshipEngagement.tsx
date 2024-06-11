@@ -183,8 +183,9 @@ function MentorSignUp() {
               type="text"
               name="tags"
               ref={tagInputRef}
-              placeholder="ex: TypeScript, Java, UI/UX, DevOps, etc..."
+              placeholder="ex: TypeScript, Python, React, etc..."
               class="flex-1 appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              required={!formData.tags.length}
             />
             <button onClick={handleTagButton}>
               <IconSquarePlus class="h-9 w-9 text-orange-400 hover:text-orange-600 active:text-black transition-colors" />
