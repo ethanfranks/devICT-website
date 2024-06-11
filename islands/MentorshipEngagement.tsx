@@ -41,17 +41,21 @@ function MentorSignUp() {
     setFormData((formData) => {
       return {
         ...formData,
-        tags: [...formData.tags.slice(0, index).concat(formData.tags.slice(index + 1))],
+        tags: [
+          ...formData.tags.slice(0, index).concat(
+            formData.tags.slice(index + 1),
+          ),
+        ],
       };
     });
   }
 
   function TagCard(props: { tag: string; index: number }) {
     return (
-      <div class="flex flex-row gap-2 max-w-fit rounded-full pl-3 pr-2 py-1 bg-orange-500 items-center">
+      <div class="flex flex-row gap-2 max-w-fit items-center rounded-full pl-3 pr-2 py-1 shadow-lg bg-gradient-to-b from-orange-400 to-orange-500">
         <p class="flex-1 text-white">{props.tag}</p>
         <button onClick={() => handleRemoveTag(props.index)}>
-          <IconCircleMinus class="text-white hover:text-black" />
+          <IconCircleMinus class="text-white hover:text-black transition-colors" />
         </button>
       </div>
     );
@@ -85,12 +89,12 @@ function MentorSignUp() {
   }
 
   function handleGuidelinesClick() {
-    setFormData((formData) => {
-      return {
-        ...formData,
-        guidelinesAccepted: !formData.guidelinesAccepted,
-      };
-    });
+      setFormData((formData) => {
+        return {
+          ...formData,
+          guidelinesAccepted: !formData.guidelinesAccepted,
+        };
+      });
   }
 
   return (
@@ -142,7 +146,7 @@ function MentorSignUp() {
               <label for="slackId" class="font-semibold pl-0.5">
                 Slack Member ID
               </label>
-              <Help class="h-4 w-4" />
+              <Help class="h-4 w-4 hover:text-orange-500 transition-colors" />
             </div>
             <input
               id="slackId"
@@ -183,7 +187,7 @@ function MentorSignUp() {
               class="flex-1 appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
             />
             <button onClick={handleTagButton}>
-              <IconSquarePlus class="h-9 w-9 text-orange-500" />
+              <IconSquarePlus class="h-9 w-9 text-orange-400 hover:text-orange-600 active:text-black transition-colors" />
             </button>
           </div>
           {formData.tags.length
@@ -202,10 +206,12 @@ function MentorSignUp() {
         </section>
         <section class="flex-1 flex flex-col gap-1">
           <p class="font-semibold pl-0.5">Guidelines</p>
-          <div class="flex flex-row items-center justify-between gap-4 p-2 border-1 rounded shadow">
+          <div
+            class="flex flex-row items-center justify-between border-1 rounded shadow hover:bg-gray-50 transition-colors"
+          >
             <label
               for="guidelinesAccepted"
-              class="text-justify"
+              class="flex-1 text-justify p-2"
             >
               By checking this field I confirm that I have read the mentorship
               guidelines outlined on this page and agree with the terms and
@@ -215,15 +221,14 @@ function MentorSignUp() {
               id="guidelinesAccepted"
               type="checkbox"
               name="guidelinesAccepted"
-              value="true"
               required
-              class="h-4 w-4"
+              class="h-4 w-4 mr-2"
               onClick={handleGuidelinesClick}
             />
           </div>
         </section>
         <div class="flex justify-center sm:justify-end pt-2 md:pt-0">
-          <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold rounded shadow-md py-2 px-6 min-w-full md:min-w-fit md:w-1/3 lg:w-1/4 xl:w-1/5">
+          <button class="bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold rounded shadow-md py-2 px-6 min-w-full md:min-w-fit md:w-1/3 lg:w-1/4 xl:w-1/5">
             Submit Request
           </button>
         </div>
@@ -261,10 +266,10 @@ export default function MentorshipEngagement() {
           aria-controls="current-mentors-panel"
           id="current-mentors-tab"
           tabindex={0}
-          class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-l-full border-1 border-orange-500 transition-colors
+          class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-l-full border-1 border-orange-400 shadow-xl transition-colors
               ${
             selectedTabIndex === 0
-              ? "text-white bg-orange-500"
+              ? "text-white bg-gradient-to-l bg-gradient-to-l from-orange-400 to-orange-500"
               : "text-black-600 border-r-0"
           }`}
           onClick={handleSelectedTabIndex}
@@ -277,10 +282,10 @@ export default function MentorshipEngagement() {
           aria-controls="mentor-sign-up-panel"
           id="mentor-sign-up-tab"
           tabindex={1}
-          class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-r-full border-1 border-orange-500 transition-colors +
+          class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-r-full border-1 border-orange-400 shadow-xl transition-colors +
               ${
             selectedTabIndex === 1
-              ? "text-white bg-orange-500"
+              ? "text-white bg-gradient-to-r from-orange-400 to-orange-500"
               : "text-black-600 border-l-0"
           }`}
           onClick={handleSelectedTabIndex}
