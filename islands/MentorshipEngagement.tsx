@@ -1,8 +1,9 @@
-import { useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 import { Mentor } from "../lib/mentors.ts";
 import Help from "tabler_icons/help.tsx";
 import IconSquarePlus from "tabler_icons/square-plus.tsx";
+import IconCircleMinus from "tabler_icons/circle-minus.tsx";
 
 function MentorCard(mentor: Mentor) {
   return (
@@ -20,14 +21,6 @@ function CurrentMentors() {
   );
 }
 
-function TagCard(tag: string) {
-  return (
-    <div>
-      <p>{tag}</p>
-    </div>
-  );
-}
-
 function MentorSignUp() {
   const [formData, setFormData] = useState<Mentor>({
     id: crypto.randomUUID(),
@@ -35,11 +28,70 @@ function MentorSignUp() {
     slackUsername: "",
     slackId: "",
     title: "",
-    description: "",
+    about: "",
     tags: [],
     guidelinesAccepted: false,
     isApproved: false,
   });
+  const tagInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => console.log(JSON.stringify(formData)), [formData]);
+
+  function handleRemoveTag(index: number) {
+    setFormData((formData) => {
+      return {
+        ...formData,
+        tags: [...formData.tags.slice(0, index).concat(formData.tags.slice(index + 1))],
+      };
+    });
+  }
+
+  function TagCard(props: { tag: string; index: number }) {
+    return (
+      <div class="flex flex-row gap-2 max-w-fit rounded-full pl-3 pr-2 py-1 bg-orange-500 items-center">
+        <p class="flex-1 text-white">{props.tag}</p>
+        <button onClick={() => handleRemoveTag(props.index)}>
+          <IconCircleMinus class="text-white hover:text-black" />
+        </button>
+      </div>
+    );
+  }
+
+  function handleInputChange(
+    e:
+      | JSX.TargetedEvent<HTMLInputElement>
+      | JSX.TargetedEvent<HTMLTextAreaElement>,
+  ) {
+    e.preventDefault();
+    setFormData((formData) => {
+      return { ...formData, [e.currentTarget.name]: e.currentTarget.value };
+    });
+  }
+
+  function handleTagButton(e: JSX.TargetedEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (tagInputRef.current && tagInputRef.current.value) {
+      if (!formData.tags.includes(tagInputRef.current.value)) {
+        setFormData((formData) => {
+          return {
+            ...formData,
+            tags: [...formData.tags, tagInputRef.current!.value],
+          };
+        });
+      }
+
+      tagInputRef.current.value = "";
+    }
+  }
+
+  function handleGuidelinesClick() {
+    setFormData((formData) => {
+      return {
+        ...formData,
+        guidelinesAccepted: !formData.guidelinesAccepted,
+      };
+    });
+  }
 
   return (
     <div class="transition-all bg-white rounded-lg shadow-lg p-2 md:p-4 flex flex-col gap-2 md:gap-4">
@@ -54,6 +106,7 @@ function MentorSignUp() {
               placeholder="ex: Alan Turing"
               required
               class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              onChange={handleInputChange}
             />
           </div>
           <div class="flex-1 flex flex-col gap-1">
@@ -65,85 +118,107 @@ function MentorSignUp() {
               placeholder="ex: Senior Software Engineer"
               required
               class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              onChange={handleInputChange}
             />
           </div>
         </section>
         <section class="flex flex-row flex-wrap gap-2 md:gap-4">
           <div class="flex-1 flex flex-col gap-1">
-            <label for="slack-username" class="font-semibold pl-0.5">
+            <label for="slackUsername" class="font-semibold pl-0.5">
               Slack Username
             </label>
             <input
-              id="slack-username"
+              id="slackUsername"
               type="text"
-              name="slack-username"
+              name="slackUsername"
               placeholder="ex: wichitaDev"
               required
               class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              onChange={handleInputChange}
             />
           </div>
           <div class="flex-1 flex flex-col gap-1">
             <div class="flex flex-row gap-1">
-              <label for="slack-id" class="font-semibold pl-0.5">
+              <label for="slackId" class="font-semibold pl-0.5">
                 Slack Member ID
               </label>
               <Help class="h-4 w-4" />
             </div>
             <input
-              id="slack-id"
+              id="slackId"
               type="text"
-              name="slack-id"
+              name="slackId"
               placeholder="ex: A01B2CDEFGH"
               class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              onChange={handleInputChange}
             />
           </div>
         </section>
         <div class="flex-1 flex flex-col gap-1">
-          <label for="description" class="font-semibold pl-0.5">
-            Description
+          <label for="about" class="font-semibold pl-0.5">
+            About
           </label>
           <textarea
-            id="description"
+            id="about"
             type="text"
-            name="description"
+            name="about"
             placeholder="ex: Hi! I'm a senior software engineer with over 10 years experience developing full-stack web apps. My focus for the past few years has been TypeScript, React, and Next.js. I've worked for small startups on greenfield projects, as well as within larger corporations on legacy codebases. I love to hike, play guitar, and read science fiction. Let's connect!"
             required
             rows={5}
             class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+            onChange={handleInputChange}
           />
         </div>
         <section class="flex-1 flex flex-col gap-1">
           <label for="tags" class="font-semibold pl-0.5">
-            Tags
+            Tags (10 max)
           </label>
           <div class="flex flex-row items-center gap-2">
             <input
               id="tags"
               type="text"
               name="tags"
+              ref={tagInputRef}
               placeholder="ex: TypeScript, Java, UI/UX, DevOps, etc..."
               class="flex-1 appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
             />
-            <button class="" onClick={(e) => {e.preventDefault()}}>
-              <IconSquarePlus class="" />
+            <button onClick={handleTagButton}>
+              <IconSquarePlus class="h-9 w-9 text-orange-500" />
             </button>
           </div>
-          {/* {formData.tags.map((tag, index) => <TagCard key={index} tag={tag} />)} */}
+          {formData.tags.length
+            ? (
+              <div class="flex flex-row flex-wrap items-center gap-2 pt-1">
+                {formData.tags.map((tag, index) => (
+                  <TagCard
+                    key={tag}
+                    index={index}
+                    tag={tag}
+                  />
+                ))}
+              </div>
+            )
+            : null}
         </section>
         <section class="flex-1 flex flex-col gap-1">
           <p class="font-semibold pl-0.5">Guidelines</p>
           <div class="flex flex-row items-center justify-between gap-4 p-2 border-1 rounded shadow">
-            <label for="guidelines-accepted" class="text-justify">
+            <label
+              for="guidelinesAccepted"
+              class="text-justify"
+            >
               By checking this field I confirm that I have read the mentorship
               guidelines outlined on this page and agree with the terms and
               conditions.
             </label>
             <input
-              id="guidelines-accepted"
+              id="guidelinesAccepted"
               type="checkbox"
-              name="guidelines-accepted"
+              name="guidelinesAccepted"
+              value="true"
               required
               class="h-4 w-4"
+              onClick={handleGuidelinesClick}
             />
           </div>
         </section>

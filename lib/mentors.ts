@@ -14,8 +14,8 @@ const MentorSchema = z.object({
   slackUsername: z.string(),
   slackId: z.string().optional(),
   title: z.string(),
-  description: z.string().max(400),
-  tags: z.array(z.string()).min(1, "A minimum of one tag is required.").max(20, "A maximum of twenty tags is allowed."),
+  about: z.string().max(400),
+  tags: z.array(z.string()).min(1, "A minimum of one tag is required.").max(10, "A maximum of ten tags is allowed."),
   guidelinesAccepted: z.boolean({
     required_error:
       "User must accept mentorship guidelines to submit a request to become a mentor.",
