@@ -4,19 +4,167 @@ import { Mentor } from "../lib/mentors.ts";
 import Help from "tabler_icons/help.tsx";
 import IconSquarePlus from "tabler_icons/square-plus.tsx";
 import IconCircleMinus from "tabler_icons/circle-minus.tsx";
+import IconBrandSlack from "tabler_icons/brand-slack.tsx";
 
-function MentorCard(mentor: Mentor) {
+const mentors: Mentor[] = [
+  {
+    id: "ABC123",
+    name: "Michael Scott",
+    title: "Regional Manager",
+    slackUsername: "Great Scott!",
+    slackId: "AB123FGHS",
+    about:
+      "Do I need to be liked? Absolutely not. I like to be liked. I enjoy being liked. I have to be liked. But it's not like a compulsive need to be liked. Like my need to be praised.",
+    tags: [
+      "Microsoft Excel",
+      "Management",
+      "Sales",
+      "Film Scripting",
+    ],
+    guidelinesAccepted: true,
+    isApproved: true,
+    isActive: true,
+  },
+  {
+    id: "DEF456",
+    name: "Dwight K. Schrute",
+    title: "Assistant to the Regional Manager",
+    slackUsername: "Dwight K. Schrute",
+    slackId: "CD456FGHS",
+    about:
+      "Whenever I'm about to do something, I think, 'Would an idiot do that?', and if they would, I do not do that thing.",
+    tags: [
+      "Emacs",
+      "Haskell",
+      "Sales",
+      "Beet Farming",
+      "Management",
+      "Karate",
+    ],
+    guidelinesAccepted: true,
+    isApproved: true,
+    isActive: true,
+  },
+  {
+    id: "GHI789",
+    name: "Jim Halpert",
+    title: "Co-Regional Manager",
+    slackUsername: "halpert",
+    slackId: "EF789FGHS",
+    about:
+      "I mean I've always subscribed to the idea that if you really want to impress your boss, you go in there and you do mediocre work, halfheartedly.",
+    tags: [
+      "JavaScript",
+      "Sales",
+      "Management",
+      "Sports Marketing",
+    ],
+    guidelinesAccepted: true,
+    isApproved: true,
+    isActive: true,
+  },
+];
+
+function TagCard(
+  props: {
+    tag: string;
+    index: number;
+    handleRemoveTag?: (index: number) => void;
+  },
+) {
   return (
-    <div>
-      <p>mentor card</p>
+    <div
+      class={`flex flex-row gap-2 max-w-fit items-center rounded-full pl-3 py-1 shadow-lg bg-gradient-to-b from-orange-400 to-orange-500 ${
+        props.handleRemoveTag ? "pr-2" : "pr-3"
+      }`}
+    >
+      <p class="flex-1 text-white">{props.tag}</p>
+      {props.handleRemoveTag
+        ? (
+          <button onClick={() => props.handleRemoveTag!(props.index)}>
+            <IconCircleMinus class="text-white hover:text-black transition-colors" />
+          </button>
+        )
+        : null}
+    </div>
+  );
+}
+
+function TagCardContainer(
+  props: { tags: string[]; handleRemoveTag?: (index: number) => void },
+) {
+  return (
+    <div
+      class={`flex flex-row flex-wrap items-center gap-2 pt-1 ${
+        props.handleRemoveTag ? "justify-start" : "justify-center"
+      }`}
+    >
+      {props.tags.map((tag, index) => (
+        <TagCard
+          key={tag}
+          index={index}
+          tag={tag}
+          handleRemoveTag={props.handleRemoveTag}
+        />
+      ))}
+    </div>
+  );
+}
+
+function MentorCard(props: { mentor: Mentor }) {
+  return (
+    <div class="flex flex-col items-center justify-center h-96 w-80 border-1 bg-white shadow-md rounded-2xl">
+      <div class="flex-1 flex flex-col pb-4 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
+        <div class="flex-1 flex">
+          <div>
+            <image />
+          </div>
+        </div>
+        <TagCardContainer tags={props.mentor.tags} />
+      </div>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+        class="flex flex-row gap-4 items-center justify-center w-full py-5 bg-gradient-to-t from-white to-gray-200 rounded-b-2xl hover:bg-gradient-to-b hover:from-gray-200 hover:to-orange-300 transition-colors"
+      >
+        Connect on Slack
+        <IconBrandSlack />
+      </button>
     </div>
   );
 }
 
 function CurrentMentors() {
+  function NoActiveMentors() {
+    return (
+      <div class="flex-1 flex flex-col justify-center items-center gap-4">
+        <p class="text-2xl text-justify">
+          Sorry, we currently don't have any active mentors.
+        </p>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+          class="flex flex-row gap-4 items-center justify-center p-5 bg-orange-400 rounded-lg hover:bg-orange-500 transition-colors font-bold text-white"
+        >
+          Reach out on Slack
+          <IconBrandSlack />
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      {/* {mentors.map(mentor => <MentorCard key={mentor.id} mentor={mentor} />)} */}
+    <div class="flex flex-wrap justify-center gap-4">
+      {mentors.length
+        ? mentors.map((mentor) => (
+          <MentorCard
+            key={mentor.id}
+            mentor={mentor}
+          />
+        ))
+        : <NoActiveMentors />}
     </div>
   );
 }
@@ -32,10 +180,9 @@ function MentorSignUp() {
     tags: [],
     guidelinesAccepted: false,
     isApproved: false,
+    isActive: true,
   });
   const tagInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => console.log(JSON.stringify(formData)), [formData]);
 
   function handleRemoveTag(index: number) {
     setFormData((formData) => {
@@ -48,17 +195,6 @@ function MentorSignUp() {
         ],
       };
     });
-  }
-
-  function TagCard(props: { tag: string; index: number }) {
-    return (
-      <div class="flex flex-row gap-2 max-w-fit items-center rounded-full pl-3 pr-2 py-1 shadow-lg bg-gradient-to-b from-orange-400 to-orange-500">
-        <p class="flex-1 text-white">{props.tag}</p>
-        <button onClick={() => handleRemoveTag(props.index)}>
-          <IconCircleMinus class="text-white hover:text-black transition-colors" />
-        </button>
-      </div>
-    );
   }
 
   function handleInputChange(
@@ -89,12 +225,12 @@ function MentorSignUp() {
   }
 
   function handleGuidelinesClick() {
-      setFormData((formData) => {
-        return {
-          ...formData,
-          guidelinesAccepted: !formData.guidelinesAccepted,
-        };
-      });
+    setFormData((formData) => {
+      return {
+        ...formData,
+        guidelinesAccepted: !formData.guidelinesAccepted,
+      };
+    });
   }
 
   return (
@@ -193,26 +329,19 @@ function MentorSignUp() {
           </div>
           {formData.tags.length
             ? (
-              <div class="flex flex-row flex-wrap items-center gap-2 pt-1">
-                {formData.tags.map((tag, index) => (
-                  <TagCard
-                    key={tag}
-                    index={index}
-                    tag={tag}
-                  />
-                ))}
-              </div>
+              <TagCardContainer
+                tags={formData.tags}
+                handleRemoveTag={handleRemoveTag}
+              />
             )
             : null}
         </section>
         <section class="flex-1 flex flex-col gap-1">
           <p class="font-semibold pl-0.5">Guidelines</p>
-          <div
-            class="flex flex-row items-center justify-between border-1 rounded shadow hover:bg-gray-50 transition-colors"
-          >
+          <div class="flex flex-row items-center justify-between border-1 rounded shadow hover:bg-gray-50 transition-colors">
             <label
               for="guidelinesAccepted"
-              class="flex-1 text-justify p-2"
+              class="flex-1 text-justify p-2 hover:cursor-pointer"
             >
               By checking this field I confirm that I have read the mentorship
               guidelines outlined on this page and agree with the terms and
@@ -223,7 +352,7 @@ function MentorSignUp() {
               type="checkbox"
               name="guidelinesAccepted"
               required
-              class="h-4 w-4 mr-2"
+              class="h-4 w-4 mr-2 hover:cursor-pointer"
               onClick={handleGuidelinesClick}
             />
           </div>
@@ -247,11 +376,20 @@ function MentorSignUp() {
 }
 
 export default function MentorshipEngagement() {
-  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(1);
+  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+
+  // useEffect(() => {
+  //   document.body.style.overflow = "hidden";
+  // }, []);
 
   function handleSelectedTabIndex(e: JSX.TargetedEvent<HTMLButtonElement>) {
     e.preventDefault();
-    setSelectedTabIndex(e.currentTarget.tabIndex);
+    const index = e.currentTarget.tabIndex;
+    if (globalThis.scrollY > 0) {
+      document.body.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => setSelectedTabIndex(index), 250);
+    } else 
+    setSelectedTabIndex(index);
   }
 
   return (

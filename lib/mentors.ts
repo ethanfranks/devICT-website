@@ -21,5 +21,6 @@ const MentorSchema = z.object({
       "User must accept mentorship guidelines to submit a request to become a mentor.",
   }),
   isApproved: z.boolean(),
+  isActive: z.boolean(),
 });
 export type Mentor = z.infer<typeof MentorSchema>;
