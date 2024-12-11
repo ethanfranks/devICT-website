@@ -13,14 +13,11 @@ const mentors: Mentor[] = [
     title: "Regional Manager",
     slackUsername: "Great Scott!",
     slackId: "AB123FGHS",
+    slackAvatarURL:
+      "https://ca.slack-edge.com/T02TAGHQQ-U02EG0MCNES-a15c591c3ec7-512",
     about:
       "Do I need to be liked? Absolutely not. I like to be liked. I enjoy being liked. I have to be liked. But it's not like a compulsive need to be liked. Like my need to be praised.",
-    tags: [
-      "Microsoft Excel",
-      "Management",
-      "Sales",
-      "Film Scripting",
-    ],
+    tags: ["Microsoft Excel", "Management", "Sales", "Film Scripting"],
     guidelinesAccepted: true,
     isApproved: true,
     isActive: true,
@@ -31,16 +28,11 @@ const mentors: Mentor[] = [
     title: "Assistant to the Regional Manager",
     slackUsername: "Dwight K. Schrute",
     slackId: "CD456FGHS",
+    slackAvatarURL:
+      "https://ca.slack-edge.com/T02TAGHQQ-U02EG0MCNES-a15c591c3ec7-512",
     about:
       "Whenever I'm about to do something, I think, 'Would an idiot do that?', and if they would, I do not do that thing.",
-    tags: [
-      "Emacs",
-      "Haskell",
-      "Sales",
-      "Beet Farming",
-      "Management",
-      "Karate",
-    ],
+    tags: ["Emacs", "Haskell", "Sales", "Beet Farming", "Management", "Karate"],
     guidelinesAccepted: true,
     isApproved: true,
     isActive: true,
@@ -51,51 +43,45 @@ const mentors: Mentor[] = [
     title: "Co-Regional Manager",
     slackUsername: "halpert",
     slackId: "EF789FGHS",
+    slackAvatarURL:
+      "https://ca.slack-edge.com/T02TAGHQQ-U02EG0MCNES-a15c591c3ec7-512",
     about:
       "I mean I've always subscribed to the idea that if you really want to impress your boss, you go in there and you do mediocre work, halfheartedly.",
-    tags: [
-      "JavaScript",
-      "Sales",
-      "Management",
-      "Sports Marketing",
-    ],
+    tags: ["JavaScript", "Sales", "Management", "Sports Marketing"],
     guidelinesAccepted: true,
     isApproved: true,
     isActive: true,
   },
 ];
 
-function TagCard(
-  props: {
-    tag: string;
-    index: number;
-    handleRemoveTag?: (index: number) => void;
-  },
-) {
+function TagCard(props: {
+  tag: string;
+  index: number;
+  handleRemoveTag?: (index: number) => void;
+}) {
   return (
     <div
-      class={`flex flex-row gap-2 max-w-fit items-center rounded-full pl-3 py-1 shadow-lg bg-gradient-to-b from-orange-400 to-orange-500 ${
+      class={`flex flex-row gap-2 max-w-fit items-center rounded-full pl-3 py-1 shadow-md bg-gradient-to-b from-orange-400 to-orange-500 ${
         props.handleRemoveTag ? "pr-2" : "pr-3"
       }`}
     >
       <p class="flex-1 text-white">{props.tag}</p>
-      {props.handleRemoveTag
-        ? (
-          <button onClick={() => props.handleRemoveTag!(props.index)}>
-            <IconCircleMinus class="text-white hover:text-black transition-colors" />
-          </button>
-        )
-        : null}
+      {props.handleRemoveTag ? (
+        <button onClick={() => props.handleRemoveTag!(props.index)}>
+          <IconCircleMinus class="text-white hover:text-black transition-colors" />
+        </button>
+      ) : null}
     </div>
   );
 }
 
-function TagCardContainer(
-  props: { tags: string[]; handleRemoveTag?: (index: number) => void },
-) {
+function TagCardContainer(props: {
+  tags: string[];
+  handleRemoveTag?: (index: number) => void;
+}) {
   return (
     <div
-      class={`flex flex-row flex-wrap items-center gap-2 pt-1 ${
+      class={`flex flex-row flex-wrap items-center gap-2 pt-2 ${
         props.handleRemoveTag ? "justify-start" : "justify-center"
       }`}
     >
@@ -113,12 +99,15 @@ function TagCardContainer(
 
 function MentorCard(props: { mentor: Mentor }) {
   return (
-    <div class="flex flex-col items-center justify-center h-96 w-80 border-1 bg-white shadow-md rounded-2xl">
-      <div class="flex-1 flex flex-col pb-4 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
-        <div class="flex-1 flex">
-          <div>
-            <image />
-          </div>
+    <div class="flex flex-col items-center justify-center w-80 border-1 bg-white shadow-md rounded-2xl">
+      <div class="flex-1 flex flex-col pb-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
+        <div class="flex-1 flex flex-col items-center gap-2 pt-2">
+          <img
+            src={props.mentor.slackAvatarURL}
+            alt="mentor profile picture"
+            class="rounded-full h-40 w-40"
+          />
+          <p class="text-md lg:text-lg font-semibold">{props.mentor.name}</p>
         </div>
         <TagCardContainer tags={props.mentor.tags} />
       </div>
@@ -157,14 +146,11 @@ function CurrentMentors() {
 
   return (
     <div class="flex flex-wrap justify-center gap-4">
-      {mentors.length
-        ? mentors.map((mentor) => (
-          <MentorCard
-            key={mentor.id}
-            mentor={mentor}
-          />
-        ))
-        : <NoActiveMentors />}
+      {mentors.length ? (
+        mentors.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
+      ) : (
+        <NoActiveMentors />
+      )}
     </div>
   );
 }
@@ -189,9 +175,9 @@ function MentorSignUp() {
       return {
         ...formData,
         tags: [
-          ...formData.tags.slice(0, index).concat(
-            formData.tags.slice(index + 1),
-          ),
+          ...formData.tags
+            .slice(0, index)
+            .concat(formData.tags.slice(index + 1)),
         ],
       };
     });
@@ -200,7 +186,7 @@ function MentorSignUp() {
   function handleInputChange(
     e:
       | JSX.TargetedEvent<HTMLInputElement>
-      | JSX.TargetedEvent<HTMLTextAreaElement>,
+      | JSX.TargetedEvent<HTMLTextAreaElement>
   ) {
     e.preventDefault();
     setFormData((formData) => {
@@ -234,11 +220,13 @@ function MentorSignUp() {
   }
 
   return (
-    <div class="transition-all bg-white rounded-lg shadow-lg p-2 md:p-4 flex flex-col gap-2 md:gap-4">
+    <div class="transition-all bg-white rounded-lg shadow-lg p-2 md:p-4 flex flex-col">
       <form class="flex flex-col gap-2 md:gap-4">
         <section class="flex flex-row flex-wrap gap-2 md:gap-4">
           <div class="flex-1 flex flex-col gap-1 min-w-">
-            <label for="name" class="font-semibold pl-0.5">Name</label>
+            <label for="name" class="font-semibold pl-0.5">
+              Name
+            </label>
             <input
               id="name"
               type="text"
@@ -250,7 +238,9 @@ function MentorSignUp() {
             />
           </div>
           <div class="flex-1 flex flex-col gap-1">
-            <label for="title" class="font-semibold pl-0.5">Title</label>
+            <label for="title" class="font-semibold pl-0.5">
+              Title
+            </label>
             <input
               id="title"
               type="text"
@@ -327,14 +317,12 @@ function MentorSignUp() {
               <IconSquarePlus class="h-9 w-9 text-orange-400 hover:text-orange-600 active:text-black transition-colors" />
             </button>
           </div>
-          {formData.tags.length
-            ? (
-              <TagCardContainer
-                tags={formData.tags}
-                handleRemoveTag={handleRemoveTag}
-              />
-            )
-            : null}
+          {formData.tags.length ? (
+            <TagCardContainer
+              tags={formData.tags}
+              handleRemoveTag={handleRemoveTag}
+            />
+          ) : null}
         </section>
         <section class="flex-1 flex flex-col gap-1">
           <p class="font-semibold pl-0.5">Guidelines</p>
@@ -388,55 +376,45 @@ export default function MentorshipEngagement() {
     if (globalThis.scrollY > 0) {
       document.body.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => setSelectedTabIndex(index), 250);
-    } else 
-    setSelectedTabIndex(index);
+    } else setSelectedTabIndex(index);
   }
 
   return (
     <div>
-      <div
-        role="tablist"
-        aria-label="Engagement Tabs"
-        class="flex flex-row w-full pb-2 mt-5 mb-3"
-      >
+      <div role="tablist" class="flex flex-row w-full pb-2 mt-5 mb-3">
         <button
           role="tab"
-          aria-selected={selectedTabIndex === 0}
-          aria-controls="current-mentors-panel"
           id="current-mentors-tab"
           tabindex={0}
           class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-l-full border-1 border-orange-400 shadow-xl transition-colors
               ${
-            selectedTabIndex === 0
-              ? "text-white bg-gradient-to-l bg-gradient-to-l from-orange-400 to-orange-500"
-              : "text-black-600 border-r-0"
-          }`}
+                selectedTabIndex === 0
+                  ? "text-white bg-gradient-to-l bg-gradient-to-l from-orange-400 to-orange-500"
+                  : "text-black-600 border-r-0"
+              }`}
           onClick={handleSelectedTabIndex}
         >
-          findMentor()
+          Find A Mentor
         </button>
         <button
           role="tab"
-          aria-selected={selectedTabIndex === 1}
-          aria-controls="mentor-sign-up-panel"
           id="mentor-sign-up-tab"
           tabindex={1}
           class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-r-full border-1 border-orange-400 shadow-xl transition-colors +
               ${
-            selectedTabIndex === 1
-              ? "text-white bg-gradient-to-r from-orange-400 to-orange-500"
-              : "text-black-600 border-l-0"
-          }`}
+                selectedTabIndex === 1
+                  ? "text-white bg-gradient-to-r from-orange-400 to-orange-500"
+                  : "text-black-600 border-l-0"
+              }`}
           onClick={handleSelectedTabIndex}
         >
-          becomeMentor()
+          Become A Mentor
         </button>
       </div>
       <div
         id="current-mentors-panel"
         role="tabpanel"
         tabIndex={0}
-        aria-labelledby="current-mentors-tab"
         hidden={selectedTabIndex !== 0}
       >
         <CurrentMentors />
@@ -445,7 +423,6 @@ export default function MentorshipEngagement() {
         id="mentor-sign-up-panel"
         role="tabpanel"
         tabIndex={1}
-        aria-labelledby="mentor-sign-up-tab"
         hidden={selectedTabIndex !== 1}
       >
         <MentorSignUp />

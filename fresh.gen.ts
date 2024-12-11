@@ -8,8 +8,8 @@ import * as $about from "./routes/about.tsx";
 import * as $api_upvote from "./routes/api/upvote.ts";
 import * as $conduct from "./routes/conduct.tsx";
 import * as $index from "./routes/index.tsx";
-import * as $mentorship from "./routes/mentorship.tsx";
 import * as $learn from "./routes/learn.tsx";
+import * as $mentorship from "./routes/mentorship.tsx";
 import * as $projects from "./routes/projects.tsx";
 import * as $report from "./routes/report.ts";
 import * as $support from "./routes/support.tsx";
@@ -38,8 +38,8 @@ const manifest = {
     "./islands/Footer.tsx": $Footer,
     "./islands/Header.tsx": $Header,
     "./islands/IssuesList.tsx": $IssuesList,
-    "./islands/TopicItem.tsx": $TopicItem,
     "./islands/MentorshipEngagement.tsx": $MentorshipEngagement,
+    "./islands/TopicItem.tsx": $TopicItem,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
