@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 import { Mentor } from "../lib/mentors.ts";
-import Help from "tabler_icons/help.tsx";
 import IconSquarePlus from "tabler_icons/square-plus.tsx";
 import IconCircleMinus from "tabler_icons/circle-minus.tsx";
 import IconBrandSlack from "tabler_icons/brand-slack.tsx";
+import CaretDown from "tabler_icons/caret-down.tsx";
+import CaretUp from "tabler_icons/caret-up.tsx";
+import Tooltip from "../components/Tooltip.tsx";
 
 const mentors: Mentor[] = [
   {
@@ -65,7 +67,7 @@ function TagCard(props: {
         props.handleRemoveTag ? "pr-2" : "pr-3"
       }`}
     >
-      <p class="flex-1 text-white">{props.tag}</p>
+      <p class="flex-1 text-white text-sm">{props.tag}</p>
       {props.handleRemoveTag ? (
         <button onClick={() => props.handleRemoveTag!(props.index)}>
           <IconCircleMinus class="text-white hover:text-black transition-colors" />
@@ -99,15 +101,27 @@ function TagCardContainer(props: {
 
 function MentorCard(props: { mentor: Mentor }) {
   return (
-    <div class="flex flex-col items-center justify-center w-80 border-1 bg-white shadow-md rounded-2xl">
-      <div class="flex-1 flex flex-col pb-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
-        <div class="flex-1 flex flex-col items-center gap-2 pt-2">
+    <div class="flex flex-col items-center justify-center w-max md:w-80 border-1 bg-white shadow-md rounded-2xl">
+      <div class="flex-1 flex flex-col pb-2 px-2 gap-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
+        <div class="flex-1 flex flex-col items-center pt-2">
           <img
             src={props.mentor.slackAvatarURL}
             alt="mentor profile picture"
             class="rounded-full h-40 w-40"
           />
-          <p class="text-md lg:text-lg font-semibold">{props.mentor.name}</p>
+          <section class="flex flex-col items-center">
+            <p class="text-md font-semibold">{props.mentor.name}</p>
+            <p class="text-sm font-normal">{props.mentor.title}</p>
+          </section>
+          {/* having trouble getting <hr> to show dividedr... */}
+          <hr class="mx-auto my-2 max-w-md border-t-1 border-black z-50" />
+          <section class="flex flex-col items-center px-2">
+            {/* <div class="flex flex-row items-center justify-between">
+              <p>About</p>
+              <CaretDown />
+            </div> */}
+            <p class="text-justify text-sm">{props.mentor.about}</p>
+          </section>
         </div>
         <TagCardContainer tags={props.mentor.tags} />
       </div>
@@ -272,7 +286,7 @@ function MentorSignUp() {
               <label for="slackId" class="font-semibold pl-0.5">
                 Slack Member ID
               </label>
-              <Help class="h-4 w-4 hover:text-orange-500 transition-colors" />
+              <Tooltip text="It worked!" />
             </div>
             <input
               id="slackId"
