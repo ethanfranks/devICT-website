@@ -4,8 +4,6 @@ import { Mentor } from "../lib/mentors.ts";
 import IconSquarePlus from "tabler_icons/square-plus.tsx";
 import IconCircleMinus from "tabler_icons/circle-minus.tsx";
 import IconBrandSlack from "tabler_icons/brand-slack.tsx";
-import CaretDown from "tabler_icons/caret-down.tsx";
-import CaretUp from "tabler_icons/caret-up.tsx";
 import Tooltip from "../components/Tooltip.tsx";
 
 const mentors: Mentor[] = [
@@ -102,24 +100,19 @@ function TagCardContainer(props: {
 function MentorCard(props: { mentor: Mentor }) {
   return (
     <div class="flex flex-col items-center justify-center w-max md:w-80 border-1 bg-white shadow-md rounded-2xl">
-      <div class="flex-1 flex flex-col pb-2 px-2 gap-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
-        <div class="flex-1 flex flex-col items-center pt-2">
+      <div class="flex-1 flex flex-col pt-4 pb-2 px-2 gap-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
+        <div class="flex-1 flex flex-col items-center">
           <img
             src={props.mentor.slackAvatarURL}
             alt="mentor profile picture"
             class="rounded-full h-40 w-40"
           />
-          <section class="flex flex-col items-center">
+          <section class="flex flex-col items-center pt-2">
             <p class="text-md font-semibold">{props.mentor.name}</p>
             <p class="text-sm font-normal">{props.mentor.title}</p>
           </section>
-          {/* having trouble getting <hr> to show dividedr... */}
-          <hr class="mx-auto my-2 max-w-md border-t-1 border-black z-50" />
+          <hr class="w-full my-3 border-gray-300" />
           <section class="flex flex-col items-center px-2">
-            {/* <div class="flex flex-row items-center justify-between">
-              <p>About</p>
-              <CaretDown />
-            </div> */}
             <p class="text-justify text-sm">{props.mentor.about}</p>
           </section>
         </div>
