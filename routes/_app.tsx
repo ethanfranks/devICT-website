@@ -1,6 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
 import Header from "../islands/Header.tsx";
 import Footer from "../islands/Footer.tsx";
+import { title } from "../lib/title.ts";
 
 const nav = [
   { name: "About", href: "/about" },
@@ -38,6 +39,7 @@ export default function App({ Component, route }: PageProps) {
         <link rel="manifest" href="/manifest.json" />
         {/* <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#eb7e32" /> */}
         <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/styles.css" />
         <style>
           {`
           @font-face {
@@ -50,7 +52,11 @@ export default function App({ Component, route }: PageProps) {
         `}
         </style>
 
-        <title>Contribute &middot; devICT</title>
+        <title>{title()}</title>
+        <meta
+          name="description"
+          content="devICT is a Wichita, KS local community meetup group for anyone interested in programming, coding, software engineering, web development, or game development. We aim to educate, empower, and connect software developers in the Wichita, KS area."
+        />
       </head>
       <body class="bg-[url('/cream_pixels.png')] bg-repeat font-sans">
         <Header active={route} nav={nav} />
