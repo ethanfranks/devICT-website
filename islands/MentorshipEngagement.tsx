@@ -34,43 +34,16 @@ const mentors: Mentor[] = [
     about:
       "This is a description that is exactly four hundred characters long. It is intended to test the maximum length validation for the about field. This field should contain interesting information about the user. Make sure to not exceed the character limit. Testing limits helps ensure robust validations in the schema implementation.",
     tags: [
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-      "Algebraic Logic Functional programming language",
-    ],
-    guidelinesAccepted: true,
-    isApproved: true,
-    isActive: true,
-  },
-  {
-    id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
-    name: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr.",
-    title:
-      "Senior Vice President of Sales and Regional Operations for North America and Europe",
-    slackUsername: "john_doe",
-    slackId: "U02EG0MCNES",
-    slackAvatarURL:
-      "https://ca.slack-edge.com/T02TAGHQQ-U02EG0MCNES-a15c591c3ec7-512",
-    about:
-      "This is a description that is exactly four hundred characters long. It is intended to test the maximum length validation for the about field. This field should contain interesting information about the user. Make sure to not exceed the character limit. Testing limits helps ensure robust validations in the schema implementation.",
-    tags: [
       "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
-      "JavaScript",
+      "Rust",
+      "Python",
+      "Systems Design",
+      "Go",
+      "UI/UX Design",
+      "HTML & CSS",
+      "Machine Learning",
+      "Linux System Administration",
+      "DevOps",
     ],
     guidelinesAccepted: true,
     isApproved: true,
@@ -251,6 +224,7 @@ function MentorSignUp() {
     name: "",
     slackUsername: "",
     slackId: "",
+    slackAvatarURL: "",
     title: "",
     about: "",
     tags: [],
@@ -291,7 +265,7 @@ function MentorSignUp() {
         setFormData((formData) => {
           return {
             ...formData,
-            tags: [...formData.tags, tagInputRef.current!.value],
+            tags: [...formData.tags, ...tagInputRef.current!.value.split(/,\s*/)],
           };
         });
       }
