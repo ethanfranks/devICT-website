@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 import { Mentor } from "../lib/mentors.ts";
 import IconSquarePlus from "tabler_icons/square-plus.tsx";
@@ -23,6 +23,60 @@ const mentors: Mentor[] = [
     isActive: true,
   },
   {
+    id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    name: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr.",
+    title:
+      "Senior Vice President of Sales and Regional Operations for North America and Europe",
+    slackUsername: "john_doe",
+    slackId: "U02EG0MCNES",
+    slackAvatarURL:
+      "https://ca.slack-edge.com/T02TAGHQQ-U02EG0MCNES-a15c591c3ec7-512",
+    about:
+      "This is a description that is exactly four hundred characters long. It is intended to test the maximum length validation for the about field. This field should contain interesting information about the user. Make sure to not exceed the character limit. Testing limits helps ensure robust validations in the schema implementation.",
+    tags: [
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+      "Algebraic Logic Functional programming language",
+    ],
+    guidelinesAccepted: true,
+    isApproved: true,
+    isActive: true,
+  },
+  {
+    id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    name: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr.",
+    title:
+      "Senior Vice President of Sales and Regional Operations for North America and Europe",
+    slackUsername: "john_doe",
+    slackId: "U02EG0MCNES",
+    slackAvatarURL:
+      "https://ca.slack-edge.com/T02TAGHQQ-U02EG0MCNES-a15c591c3ec7-512",
+    about:
+      "This is a description that is exactly four hundred characters long. It is intended to test the maximum length validation for the about field. This field should contain interesting information about the user. Make sure to not exceed the character limit. Testing limits helps ensure robust validations in the schema implementation.",
+    tags: [
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+      "JavaScript",
+    ],
+    guidelinesAccepted: true,
+    isApproved: true,
+    isActive: true,
+  },
+  {
     id: "DEF456",
     name: "Dwight K. Schrute",
     title: "Assistant to the Regional Manager",
@@ -40,7 +94,6 @@ const mentors: Mentor[] = [
   {
     id: "GHI789",
     name: "Jim Halpert",
-    title: "Co-Regional Manager",
     slackUsername: "halpert",
     slackId: "EF789FGHS",
     slackAvatarURL:
@@ -65,12 +118,14 @@ function TagCard(props: {
         props.handleRemoveTag ? "pr-2" : "pr-3"
       }`}
     >
-      <p class="flex-1 text-white text-sm">{props.tag}</p>
-      {props.handleRemoveTag ? (
-        <button onClick={() => props.handleRemoveTag!(props.index)}>
-          <IconCircleMinus class="text-white hover:text-black transition-colors" />
-        </button>
-      ) : null}
+      <p class="flex-1 text-white text-sm text-center">{props.tag}</p>
+      {props.handleRemoveTag
+        ? (
+          <button onClick={() => props.handleRemoveTag!(props.index)}>
+            <IconCircleMinus class="text-white hover:text-black transition-colors" />
+          </button>
+        )
+        : null}
     </div>
   );
 }
@@ -98,6 +153,26 @@ function TagCardContainer(props: {
 }
 
 function MentorCard(props: { mentor: Mentor }) {
+  async function openSlackMessage(
+    e: JSX.TargetedMouseEvent<HTMLButtonElement>,
+  ) {
+    // WORK IN PROGRESS
+    e.preventDefault();
+
+    const response = await fetch("https://slack.com/api/conversations.open", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Error opening Slack message:", error);
+      // Optionally, you can show an error message to the user here
+    }
+  }
+
   return (
     <div class="flex flex-col items-center justify-center w-max md:w-80 border-1 bg-white shadow-md rounded-2xl">
       <div class="flex-1 flex flex-col pt-4 pb-2 px-2 gap-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
@@ -107,22 +182,28 @@ function MentorCard(props: { mentor: Mentor }) {
             alt="mentor profile picture"
             class="rounded-full h-40 w-40"
           />
-          <section class="flex flex-col items-center pt-2">
-            <p class="text-md font-semibold">{props.mentor.name}</p>
-            <p class="text-sm font-normal">{props.mentor.title}</p>
-          </section>
-          <hr class="w-full my-3 border-gray-300" />
-          <section class="flex flex-col items-center px-2">
-            <p class="text-justify text-sm">{props.mentor.about}</p>
-          </section>
+          <div class="flex flex-col items-center px-2">
+            <section class="flex flex-col items-center pt-2">
+              <p class="text-md font-semibold text-center">
+                {props.mentor.name}
+              </p>
+              <p class="text-sm font-normal text-center">
+                {props.mentor.title
+                  ? props.mentor.title
+                  : "devICT Community Member"}
+              </p>
+            </section>
+            <hr class="w-full my-3 border-gray-300" />
+            <section class="flex flex-col items-center">
+              <p class="text-justify text-sm">{props.mentor.about}</p>
+            </section>
+          </div>
         </div>
         <TagCardContainer tags={props.mentor.tags} />
       </div>
       <button
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-        class="flex flex-row gap-4 items-center justify-center w-full py-5 bg-gradient-to-t from-white to-gray-200 rounded-b-2xl hover:bg-gradient-to-b hover:from-gray-200 hover:to-orange-300 transition-colors"
+        onClick={openSlackMessage}
+        class="flex flex-row gap-4 items-center justify-center w-full py-5 bg-gradient-to-t from-white to-gray-200 rounded-b-2xl hover:bg-gradient-to-b hover:from-gray-200 hover:to-gray-300 transition-all hover:font-semibold"
       >
         Connect on Slack
         <IconBrandSlack />
@@ -153,11 +234,13 @@ function CurrentMentors() {
 
   return (
     <div class="flex flex-wrap justify-center gap-4">
-      {mentors.length ? (
-        mentors.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
-      ) : (
-        <NoActiveMentors />
-      )}
+      {mentors.length
+        ? (
+          mentors.sort((a, b) => a.tags.length < b.tags.length ? -1 : 1).map((
+            mentor,
+          ) => <MentorCard key={mentor.id} mentor={mentor} />)
+        )
+        : <NoActiveMentors />}
     </div>
   );
 }
@@ -193,7 +276,7 @@ function MentorSignUp() {
   function handleInputChange(
     e:
       | JSX.TargetedEvent<HTMLInputElement>
-      | JSX.TargetedEvent<HTMLTextAreaElement>
+      | JSX.TargetedEvent<HTMLTextAreaElement>,
   ) {
     e.preventDefault();
     setFormData((formData) => {
@@ -240,7 +323,7 @@ function MentorSignUp() {
               name="name"
               placeholder="ex: Alan Turing"
               required
-              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               onChange={handleInputChange}
             />
           </div>
@@ -254,7 +337,7 @@ function MentorSignUp() {
               name="title"
               placeholder="ex: Senior Software Engineer"
               required
-              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               onChange={handleInputChange}
             />
           </div>
@@ -270,7 +353,7 @@ function MentorSignUp() {
               name="slackUsername"
               placeholder="ex: wichitaDev"
               required
-              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               onChange={handleInputChange}
             />
           </div>
@@ -286,7 +369,7 @@ function MentorSignUp() {
               type="text"
               name="slackId"
               placeholder="ex: A01B2CDEFGH"
-              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               onChange={handleInputChange}
             />
           </div>
@@ -302,7 +385,7 @@ function MentorSignUp() {
             placeholder="ex: Hi! I'm a senior software engineer with over 10 years experience developing full-stack web apps. My focus for the past few years has been TypeScript, React, and Next.js. I've worked for small startups on greenfield projects, as well as within larger corporations on legacy codebases. I love to hike, play guitar, and read science fiction. Let's connect!"
             required
             rows={5}
-            class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+            class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
             onChange={handleInputChange}
           />
         </div>
@@ -317,19 +400,21 @@ function MentorSignUp() {
               name="tags"
               ref={tagInputRef}
               placeholder="ex: TypeScript, Python, React, etc..."
-              class="flex-1 appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow focus:shadow-orange-200"
+              class="flex-1 appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               required={!formData.tags.length}
             />
             <button onClick={handleTagButton}>
               <IconSquarePlus class="h-9 w-9 text-orange-400 hover:text-orange-600 active:text-black transition-colors" />
             </button>
           </div>
-          {formData.tags.length ? (
-            <TagCardContainer
-              tags={formData.tags}
-              handleRemoveTag={handleRemoveTag}
-            />
-          ) : null}
+          {formData.tags.length
+            ? (
+              <TagCardContainer
+                tags={formData.tags}
+                handleRemoveTag={handleRemoveTag}
+              />
+            )
+            : null}
         </section>
         <section class="flex-1 flex flex-col gap-1">
           <p class="font-semibold pl-0.5">Guidelines</p>
@@ -373,10 +458,6 @@ function MentorSignUp() {
 export default function MentorshipEngagement() {
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden";
-  // }, []);
-
   function handleSelectedTabIndex(e: JSX.TargetedEvent<HTMLButtonElement>) {
     e.preventDefault();
     const index = e.currentTarget.tabIndex;
@@ -395,10 +476,10 @@ export default function MentorshipEngagement() {
           tabindex={0}
           class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-l-full border-1 border-orange-400 shadow-xl transition-colors
               ${
-                selectedTabIndex === 0
-                  ? "text-white bg-gradient-to-l bg-gradient-to-l from-orange-400 to-orange-500"
-                  : "text-black-600 border-r-0"
-              }`}
+            selectedTabIndex === 0
+              ? "text-white bg-gradient-to-l from-orange-400 to-orange-500"
+              : "text-black-600 border-r-0"
+          }`}
           onClick={handleSelectedTabIndex}
         >
           Find A Mentor
@@ -409,10 +490,10 @@ export default function MentorshipEngagement() {
           tabindex={1}
           class={`flex-1 text-lg lg:text-xl font-semibold py-1 rounded-r-full border-1 border-orange-400 shadow-xl transition-colors +
               ${
-                selectedTabIndex === 1
-                  ? "text-white bg-gradient-to-r from-orange-400 to-orange-500"
-                  : "text-black-600 border-l-0"
-              }`}
+            selectedTabIndex === 1
+              ? "text-white bg-gradient-to-r from-orange-400 to-orange-500"
+              : "text-black-600 border-l-0"
+          }`}
           onClick={handleSelectedTabIndex}
         >
           Become A Mentor

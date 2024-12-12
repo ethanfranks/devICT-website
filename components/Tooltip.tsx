@@ -2,7 +2,7 @@ import Help from "tabler_icons/help.tsx";
 
 type TooltipProps = {
     text: string;
-    position: 'top' | 'right' | 'bottom' | 'left';
+    position?: 'top' | 'right' | 'bottom' | 'left';
 }
 // WORK IN PROGRESS
 export default function Tooltip({text}: TooltipProps) {
