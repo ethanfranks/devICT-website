@@ -261,16 +261,20 @@ function MentorSignUp() {
   function handleTagButton(e: JSX.TargetedEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (tagInputRef.current && tagInputRef.current.value) {
-      if (!formData.tags.includes(tagInputRef.current.value)) {
+      const inputTags = tagInputRef.current!.value.split(/,\s*/).filter(tag => tag.length > 0);
+
+      if (formData.tags.length + inputTags.length <= 10) {
         setFormData((formData) => {
           return {
             ...formData,
-            tags: [...formData.tags, ...tagInputRef.current!.value.split(/,\s*/)],
+            tags: [...formData.tags, ...inputTags],
           };
         });
-      }
 
-      tagInputRef.current.value = "";
+        tagInputRef.current.value = "";
+      } else {
+        // TO DO: SET TOO MANY TAGS ERROR
+      }
     }
   }
 
@@ -335,7 +339,7 @@ function MentorSignUp() {
               <label for="slackId" class="font-semibold pl-0.5">
                 Slack Member ID
               </label>
-              <Tooltip text="In Slack click on your avatar, then profile, then the vertical ellipses, then copy member id." />
+              <Tooltip pxWidth={300} text="Ensures your mentor profile is up to date. Open Slack > Click your avatar > 'Profile' > vertical ellipses icon > 'Copy member ID'." />
             </div>
             <input
               id="slackId"
@@ -371,7 +375,7 @@ function MentorSignUp() {
               type="text"
               name="tags"
               ref={tagInputRef}
-              placeholder="ex: TypeScript, Python, React, etc..."
+              placeholder="ex: Python, React, DevOps, etc..."
               class="flex-1 appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               required={!formData.tags.length}
             />
@@ -410,7 +414,12 @@ function MentorSignUp() {
           </div>
         </section>
         <div class="flex justify-center sm:justify-end pt-2 md:pt-0">
-          <button class="bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold rounded shadow-md py-2 px-6 min-w-full md:min-w-fit md:w-1/3 lg:w-1/4 xl:w-1/5">
+          <button
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            class="bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold rounded shadow-md py-2 px-6 min-w-full md:min-w-fit md:w-1/3 lg:w-1/4 xl:w-1/5"
+          >
             Submit Request
           </button>
         </div>
