@@ -310,7 +310,6 @@ function MentorSignUp() {
               type="text"
               name="title"
               placeholder="ex: Senior Software Engineer"
-              required
               class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
               onChange={handleInputChange}
             />
@@ -336,7 +335,7 @@ function MentorSignUp() {
               <label for="slackId" class="font-semibold pl-0.5">
                 Slack Member ID
               </label>
-              <Tooltip text="It worked!" />
+              <Tooltip text="In Slack click on your avatar, then profile, then the vertical ellipses, then copy member id." />
             </div>
             <input
               id="slackId"
@@ -357,7 +356,6 @@ function MentorSignUp() {
             type="text"
             name="about"
             placeholder="ex: Hi! I'm a senior software engineer with over 10 years experience developing full-stack web apps. My focus for the past few years has been TypeScript, React, and Next.js. I've worked for small startups on greenfield projects, as well as within larger corporations on legacy codebases. I love to hike, play guitar, and read science fiction. Let's connect!"
-            required
             rows={5}
             class="appearance-none shadow border rounded px-2 py-1 focus:outline-none focus:shadow focus:border-orange-500 focus:shadow-orange-200"
             onChange={handleInputChange}
