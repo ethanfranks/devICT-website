@@ -15,7 +15,7 @@ const MentorSchema = z.object({
       "Name cannot contain numbers or special characters other than hyphens, commas or periods.",
     ),
   slackUsername: z.string(),
-  slackId: z.string().optional(),
+  slackId: z.string(),
   slackAvatarURL: z.string().url().optional(),
   title: z
     .string()

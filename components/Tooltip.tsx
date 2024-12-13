@@ -42,7 +42,7 @@ export default function Tooltip(
     <div class="group relative overflow-visible">
       <Help class="h-4 w-4 group-hover:text-orange-500 transition-colors" />
       <div
-        class="absolute hidden group-hover:flex justify-center items-center text-justify p-2 bg-white border border-black rounded-md shadow-md"
+        class="absolute hidden group-hover:flex justify-center items-center text-center p-2 bg-gray-50 border border-gray-400 rounded-md shadow-md"
         style={tooltipStyles}
       >
         <p class="text-sm lg:text-md">
