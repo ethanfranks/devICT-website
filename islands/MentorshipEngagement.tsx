@@ -136,8 +136,8 @@ function MentorCard(props: { mentor: Mentor }) {
   }
 
   return (
-    <div class="flex flex-col items-center justify-center w-max md:w-80 border-1 bg-white shadow-md rounded-2xl">
-      <div class="flex-1 flex flex-col pt-4 pb-2 px-2 gap-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
+    <div class="col-span-1 flex flex-col items-center justify-center border-1 bg-white shadow-md rounded-2xl">
+      <div class="flex-1 max-w-full flex flex-col pt-4 pb-3 px-2 gap-2 bg-gradient-to-b from-white to-gray-200 rounded-t-2xl justify-center items-center">
         <div class="flex-1 flex flex-col items-center">
           <img
             src={props.mentor.slackAvatarURL
@@ -171,7 +171,7 @@ function MentorCard(props: { mentor: Mentor }) {
       </div>
       <button
         onClick={openSlackMessage}
-        class="flex flex-row gap-4 items-center justify-center w-full py-5 bg-gradient-to-t from-white to-gray-200 rounded-b-2xl hover:bg-gradient-to-b hover:from-gray-200 hover:to-gray-300 transition-all hover:font-semibold"
+        class="flex flex-row gap-4 items-center justify-center w-full py-5 -mt-1 bg-gradient-to-t from-white to-gray-200 rounded-b-2xl hover:bg-gradient-to-b hover:from-gray-200 hover:to-gray-300 transition-all hover:font-semibold"
       >
         Connect on Slack
         <IconBrandSlack />
@@ -181,15 +181,19 @@ function MentorCard(props: { mentor: Mentor }) {
 }
 
 function CurrentMentors() {
-  function NoActiveMentors() {
+  if (!mentors.length) {
     return (
-      <div class="flex-1 flex flex-col justify-center items-center gap-4">
-        <p class="text-2xl text-justify">
+      <div class="h-72 md:h-96 flex flex-col justify-center items-center gap-8">
+        <p class="text-xl lg:text-2xl text-center">
           Sorry, we currently don't have any active mentors.
         </p>
         <button
           onClick={(e) => {
             e.preventDefault();
+            globalThis.open(
+              `https://devict.slack.com/app_redirect?channel=career-advice`,
+              "_blank",
+            );
           }}
           class="flex flex-row gap-4 items-center justify-center p-5 bg-orange-400 rounded-lg hover:bg-orange-500 transition-colors font-bold text-white"
         >
@@ -201,14 +205,10 @@ function CurrentMentors() {
   }
 
   return (
-    <div class="flex flex-wrap justify-center gap-4">
-      {mentors.length
-        ? (
-          mentors.sort((a, b) => a.tags.length < b.tags.length ? -1 : 1).map((
-            mentor,
-          ) => <MentorCard key={mentor.id} mentor={mentor} />)
-        )
-        : <NoActiveMentors />}
+    <div class="grid grid-rows-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
+      {mentors.sort((a, b) => a.tags.length < b.tags.length ? -1 : 1).map((
+        mentor,
+      ) => <MentorCard key={mentor.id} mentor={mentor} />)}
     </div>
   );
 }
